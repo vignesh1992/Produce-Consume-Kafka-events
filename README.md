@@ -24,7 +24,7 @@ Publisher App has a POST API which accepts JSON Event Data and sends it to an as
 
 The specification of Event data,
 
-```json
+```
 {
    "timestamp" : long,
    "userId" : int,
