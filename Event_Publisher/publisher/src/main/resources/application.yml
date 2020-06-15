@@ -1,0 +1,13 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: com.assignment.publisher.serialize.MessageSerializer
+
+server.port: 8080
+
+logging:
+  file:
+    name: ./log/publisher-app.log

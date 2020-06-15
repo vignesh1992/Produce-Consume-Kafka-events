@@ -1,0 +1,13 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: com.assignment.consumer.deserialize.MessageDeserializer
+      group-id: group_id
+      timeout:
+        ms: 10000
+
+server.port: 8081
+
+logging.config: config/logback.xml

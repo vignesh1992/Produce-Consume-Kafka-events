@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				 %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+
+	<appender name="FILE-EVENT"
+		class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator>
+			<key>events</key>
+			<defaultValue>consumed_events</defaultValue>
+		</discriminator>
+		<sift>
+
+			<appender name="cleanupinnerappender"
+				class="ch.qos.logback.core.rolling.RollingFileAppender">
+				<file>./logs/events.log</file>
+
+				<encoder
+					class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+					<Pattern>
+						%msg%n
+					</Pattern>
+				</encoder>
+				<rollingPolicy
+					class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+					<fileNamePattern>./logs/events.%d{yyyy-MM-dd}.%i.gz
+					</fileNamePattern>
+					<timeBasedFileNamingAndTriggeringPolicy
+						class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+						<maxFileSize>250MB</maxFileSize>
+					</timeBasedFileNamingAndTriggeringPolicy>
+					<maxHistory>30</maxHistory>
+				</rollingPolicy>
+			</appender>
+		</sift>
+	</appender>
+
+	<appender name="FILE-LOG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>./logs/consumer-app.log</file>
+		<encoder
+			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>./logs/consumer-app.%d{yyyy-MM-dd}.%i.gz
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>250MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+
+	<logger name="com.assignment.consumer.service" level="info"
+		additivity="false">
+		<appender-ref ref="FILE-EVENT" />
+	</logger>
+
+	<!-- Setting the root level of logging to INFO -->
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE-LOG" />
+	</root>
+
+</configuration>
